@@ -190,12 +190,30 @@ function displayBookmarks(bookmarks, currentCategory) {
             // **標題名稱**
             let titleSpan = document.createElement("span");
             titleSpan.textContent = bookmark.title;
+            titleSpan.style.cursor = "pointer";
+
+            // **確保點擊標題或圖片都可以開啟書籤**
+            titleSpan.addEventListener("click", (event) => {
+                event.stopPropagation(); // ✅ 防止其他事件干擾
+                window.open(bookmark.url, "_blank");
+            });
+
+            faviconImg.addEventListener("click", (event) => {
+                event.stopPropagation(); // ✅ 防止影響移動按鈕
+                window.open(bookmark.url, "_blank");
+            });
 
             // **移動按鈕**
+
             let moveButton = document.createElement("button");
             moveButton.textContent = "移動";
             moveButton.classList.add("move-button");
-            moveButton.onclick = () => moveBookmark(bookmark.id, currentCategory);
+            moveButton.onclick = () => {
+                chrome.storage.sync.get("categories", (data) => {
+                    let categories = data.categories || ["未分類"];
+                    moveBookmark(bookmark.id, currentCategory, categories);
+                });
+            };
 
             // **根據視圖模式調整 UI**
             if (isGridMode) {
@@ -231,6 +249,15 @@ function deleteBookmark(bookmarkId) {
 
 
 function moveBookmark(bookmarkId, currentCategory, categories) {
+    if (!Array.isArray(categories)) {
+        console.error("categories 不是陣列或未定義，從 storage 讀取...");
+        chrome.storage.sync.get("categories", (data) => {
+            let storedCategories = data.categories || ["未分類"];
+            moveBookmark(bookmarkId, currentCategory, storedCategories); // 重新調用 moveBookmark
+        });
+        return;
+    }
+    console.log("當前分類:", categories);
     let newCategory = prompt(`移動書籤到哪個分類？可選分類：\n${categories.join(", ")}`, currentCategory);
 
     if (!newCategory || !categories.includes(newCategory)) {

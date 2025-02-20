@@ -22,7 +22,7 @@ body {
 /* ✅ 確保分頁不會換行 */
 .tabs {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     /* 避免分頁換行 */
     gap: 5px;
 }
