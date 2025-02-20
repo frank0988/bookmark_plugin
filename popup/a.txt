@@ -1,0 +1,76 @@
+function displayBookmarks(bookmarks, currentCategory) {
+    const bookmarksList = document.getElementById("bookmarks-list");
+    bookmarksList.innerHTML = "";
+
+    chrome.storage.sync.get("viewMode", (data) => {
+        let isGridMode = data.viewMode === "grid";
+        let isEditing = data.editMode;
+
+        bookmarks.forEach(bookmark => {
+            let item = document.createElement("div");
+            item.classList.add("bookmark-item", "draggable");
+            item.draggable = isEditing; // 只有在編輯模式下允許拖動
+            item.dataset.id = bookmark.id;
+            item.style.cursor = isEditing ? "grab" : "pointer";
+
+            // 取得 favicon
+            let domain = new URL(bookmark.url).hostname;
+            let googleFaviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+            let fallbackFaviconUrl = `https://${domain}/favicon.ico`;
+
+            let faviconImg = document.createElement("img");
+            faviconImg.src = googleFaviconUrl;
+            faviconImg.alt = "網站圖示";
+            faviconImg.classList.add("favicon");
+
+            faviconImg.onerror = function () {
+                this.onerror = null;
+                this.src = fallbackFaviconUrl;
+            };
+
+            let a = document.createElement("a");
+            a.href = bookmark.url;
+            a.textContent = bookmark.title;
+            a.target = "_blank";
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "刪除";
+            deleteButton.classList.add("delete-button");
+            deleteButton.style.display = isEditing ? "inline-block" : "none"; // 只有在編輯模式時顯示
+            deleteButton.onclick = () => deleteBookmark(bookmark.id);
+
+            item.appendChild(faviconImg);
+            item.appendChild(a);
+            item.appendChild(deleteButton);
+            bookmarksList.appendChild(item);
+
+            
+            // **建立移動按鈕**
+            let moveButton = document.createElement("button");
+            moveButton.textContent = "移動";
+            moveButton.classList.add("move-button");
+            moveButton.onclick = () => moveBookmark(bookmark.id, currentCategory);
+
+            // **根據視圖模式調整 UI**
+            if (isGridMode) {
+                item.appendChild(faviconImg);
+                item.appendChild(titleSpan); // ✅ 只在 icon 下方顯示標題
+                item.appendChild(moveButton);
+            } else {
+                item.style.display = "flex";
+                item.style.alignItems = "center";
+                item.appendChild(faviconImg);
+                item.appendChild(a);
+                item.appendChild(moveButton);
+            }
+
+            item.onclick = () => {
+                window.open(bookmark.url, "_blank");
+            };
+
+            bookmarksList.appendChild(item);
+        });
+        if (isEditing) enableDragAndDrop();
+        else disableDragAndDrop();
+    });
+}

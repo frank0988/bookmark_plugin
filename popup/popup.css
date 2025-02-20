@@ -1,0 +1,193 @@
+/* 整體佈局 */
+body {
+    font-family: Arial, sans-serif;
+    width: 350px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ✅ 讓分類（分頁）橫向排列 */
+.tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 5px;
+    flex-direction: row;
+    /* 強制橫向排列 */
+}
+
+/* ✅ 確保分頁不會換行 */
+.tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    /* 避免分頁換行 */
+    gap: 5px;
+}
+
+/* ✅ 分頁按鈕樣式 */
+.tab-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    flex-shrink: 0;
+    /* 防止按鈕變形 */
+}
+
+/* ✅ 讓分頁按鈕在 active 時突出 */
+.tab-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/* ✅ 模式切換按鈕 */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 5px;
+}
+
+#toggle-view,
+#toggle-edit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#toggle-view:hover,
+#toggle-edit:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ 書籤列表區塊 */
+.bookmarks-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ✅ 預設列表模式 */
+#bookmarks-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ✅ 網格模式 */
+/* ✅ 網格模式 */
+#bookmarks-list.grid-mode {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    text-align: center;
+}
+
+/* ✅ 書籤項目 */
+.bookmark-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* ✅ 列表模式：水平對齊 */
+#bookmarks-list:not(.grid-mode) .bookmark-item {
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/* ✅ icon 預設大小 */
+.bookmark-item img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+/* ✅ 網格模式 icon 變大，標題置中 */
+#bookmarks-list.grid-mode .bookmark-item {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✅ 網格模式 icon 大 */
+#bookmarks-list.grid-mode .bookmark-item img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+    margin-right: 0;
+}
+
+/* ✅ 網格模式標題對齊 */
+#bookmarks-list.grid-mode .bookmark-item span {
+    max-width: 80px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ✅ 移動按鈕 */
+.move-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 70px;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+/* ✅ 在網格模式時，讓移動按鈕置中 */
+#bookmarks-list.grid-mode .move-button {
+    margin-left: 0;
+}
+
+
+/* ✅ 新增分類區塊 */
+.category-management {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+
+#new-category {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+#add-category {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#add-category:hover {
+    background-color: #218838;
+}

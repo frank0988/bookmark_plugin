@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書籤管理</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <!-- 1. 分類標籤（橫向排列） -->
+    <div class="tabs-container">
+        <div class="tabs" id="tabs-container"></div>
+    </div>
+
+    <!-- 2. 模式切換按鈕 -->
+    <div class="controls">
+        <button id="toggle-view">切換視圖模式</button>
+        <button id="toggle-edit">編輯模式</button>
+    </div>
+
+    <!-- 3. 書籤列表區塊 -->
+    <div class="bookmarks-container">
+        <div id="bookmarks-list"></div>
+    </div>
+
+    <!-- 4. 新增分類區塊 -->
+    <div class="category-management">
+        <input type="text" id="new-category" placeholder="新增分類名稱">
+        <button id="add-category">新增</button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
